@@ -1,43 +1,59 @@
-// var x= document.getElementsByClassName("list-group-item")
-// console.log(x)
-// // console.log(x)
-// // document.getElementById
-
-// console.log(x[0])
-// x[1].textContent="Updated item"
-// x[1].style.fontWeight='bold';
-// x[2].style.backgroundColor="green"
+var form=document.getElementById('addForm');
+var item= document.getElementById('items');
+var filter= document.getElementById('filter');
 
 
-//querySelector
+//form submission
 
-// var i= document.querySelector('#main-header');
-// i.style.borderBottom= 'solid 4px #ccc';
+form.addEventListener('submit', AddItem);
+
+item.addEventListener('click',DeleteItem);
+
+filter.addEventListener('keyup',FilterItem);
+
+function AddItem(e){
+    e.preventDefault();
+    
+    var text=document.getElementById('item').value;
+    var li= document.createElement('li');
+// console.log()
+    li.className="list-group-item";
+    li.appendChild(document.createTextNode(text));
+
+    item.appendChild(li)
+
+    var delBtn= document.createElement('button');
+    delBtn.className='btn btn-danger btn-sm float-right delete';
+
+    delBtn.appendChild(document.createTextNode('X'));
+    li.appendChild(delBtn)
+
+    
+}
+function DeleteItem(e){
+e.preventDefault();
+if(e.target.classList.contains('delete')){
+    if(confirm("are you sure to delete ? ")){
+        var li= e.target.parentElement;
+        item.removeChild(li);
+    }
+}
 
 
-// var k= document.querySelector('input');
-// var l= document.querySelector('input[type="submit"]');
-// k.value="hello world";
+}
+function FilterItem(e){
+    var text= e.target.value.toLowerCase();
+    
+    var items= document.getElementsByTagName('li');
+        Array.from(items).forEach(function(item){
+            var itemName= item.firstChild.textContent;
+            if(itemName.toLowerCase().indexOf(text) != -1){
+                item.style.display='block';
+            }
+            else{
+                item.style.display="none";
+            }
+        });
 
-// l.value="defmkmfk";
 
-
-// var upd= document.querySelector('.list-group-item:nth-child(3)')
-// upd.style.color='red'
-
-var nd1= document.createElement('div');
-nd1.className='hello';
-nd1.id='hello1';
-nd1.setAttribute('title','hello world')
-// nd1.setAttribute('fg','jh')
-
-var netext= document.createTextNode('helooooooooooooo')
-nd1.appendChild(netext);
-
-var insert= document.querySelector('header .container')
-var h1= document.querySelector('header h1')
-
-nd1.style.fontSize='90 px'
-insert.insertBefore(nd1,h1)
-
-console.log(nd1)
+}
